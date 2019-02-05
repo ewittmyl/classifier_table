@@ -65,10 +65,13 @@ def sex(image):
     P.wait()
 
 
-def remove_sideproducts():
+def remove_sideproducts(image=None):
     unwanteds = ['default.fits','default.psf','*png','chi_default.fits','resi_default.fits','samp_default.fits','psfex.xml','proto_default.fits','snap_default.fits']
     for unwanted in unwanteds:
         P = Popen('rm -rf ' + unwanted, shell=True)
+        P.wait()
+    if image:
+        P = Popen('rm -rf ' + image + '.fits', shell=True)
         P.wait()
 
 
@@ -100,7 +103,7 @@ def main(path="/export/gotodata1/jdl/storage/pipeline/", UT='UT4'):
                 if not img in processed_img:
                     prep(img_path, img)
                     sex(img)
-                    remove_sideproducts()
+                    remove_sideproducts(img)
                 else:
                     pass
     except KeyboardInterrupt:
