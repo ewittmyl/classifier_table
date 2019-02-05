@@ -1,0 +1,36 @@
+FLUX_APER[6]               # Flux vector within fixed circular aperture(s)             [count]
+MAG_APER[6]          #       Fixed aperture magnitude vector                           [mag]
+MAG_AUTO                 Kron-like elliptical aperture magnitude                   [mag]
+MAG_PETRO                Petrosian-like elliptical aperture magnitude              [mag]
+KRON_RADIUS              Kron apertures in units of A or B                        
+PETRO_RADIUS             Petrosian apertures in units of A or B                   
+FLUX_MAX                 Peak flux above background                                [count]
+ISOAREAF_IMAGE           Isophotal area (filtered) above Detection threshold       [pixel**2]
+X_IMAGE                  Object position along x                                   [pixel]
+Y_IMAGE                  Object position along y                                   [pixel]
+X_WORLD                  Barycenter position along world x axis                    [deg]
+Y_WORLD                  Barycenter position along world y axis                    [deg]
+X2_IMAGE                 Variance along x                                          [pixel**2]
+Y2_IMAGE                 Variance along y                                          [pixel**2]
+XY_IMAGE                 Covariance between x and y                                [pixel**2]
+THETA_IMAGE              Position angle (CCW/x)                                    [deg]
+X2WIN_IMAGE              Windowed variance along x                                 [pixel**2]
+Y2WIN_IMAGE              Windowed variance along y                                 [pixel**2]
+XYWIN_IMAGE              Windowed covariance between x and y                       [pixel**2]
+AWIN_IMAGE               Windowed profile RMS along major axis                     [pixel]
+BWIN_IMAGE               Windowed profile RMS along minor axis                     [pixel]
+THETAWIN_IMAGE           Windowed position angle (CCW/x)                           [deg]
+AWIN_WORLD               Windowed profile RMS along major axis (world units)       [deg]
+BWIN_WORLD               Windowed profile RMS along minor axis (world units)       [deg]
+THETAWIN_WORLD           Windowed position angle (CCW/world-x)                     [deg]
+MU_MAX                   Peak surface brightness above background                  [mag * arcsec**(-2)]
+FLAGS                    Extraction flags                                         
+FWHM_IMAGE               FWHM assuming a gaussian core                             [pixel]
+ELONGATION               A_IMAGE/B_IMAGE                                          
+CLASS_STAR               S/G classifier output                                    
+VIGNET            #       Pixel data around detection                               [count]
+FLUX_RADIUS[5]             # Fraction-of-light radii                                   [pixel]
+SPREAD_MODEL             Spread parameter from model-fitting                      
+SPREADERR_MODEL          Spread parameter error from model-fitting                
+
+SNR_WIN

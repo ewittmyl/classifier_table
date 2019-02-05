@@ -1,0 +1,14 @@
+FLUX_APER               # Flux vector within fixed circular aperture(s)             [count]
+
+FLUXERR_APER
+
+X_IMAGE                  Object position along x                                   [pixel]
+Y_IMAGE                  Object position along y                                   [pixel]
+FLAGS                    Extraction flags                                         
+ELONGATION               A_IMAGE/B_IMAGE                                          
+VIGNET(35,35)            #       Pixel data around detection                               [count]
+FLUX_RADIUS               # Fraction-of-light radii                                   [pixel]
+
+SNR_WIN
+
+FWHM
