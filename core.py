@@ -35,8 +35,11 @@ def main(path="/export/gotodata1/jdl/storage/pipeline/", UT='UT4'):
     if not os.path.isdir("./results"):
         os.mkdir("results")
     dates = load_dates(path)
+    processed_img = os.listdir("./results")
     for d in dates:
         images = glob.glob(path + d + "/final*/*" + UT + "-median.fits")
+        for img in images:
+            print("img")
         print(images)
         
     
