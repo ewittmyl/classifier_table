@@ -39,8 +39,8 @@ def main(path="/export/gotodata1/jdl/storage/pipeline/", UT='UT4'):
     for d in dates:
         images = glob.glob(path + d + "/final*/*" + UT + "-median.fits")
         for img in images:
-            img = img.split("/")[-1]
-            print(img)        
+            img = img.split("/")[-1].split(".")[0]
+            print(img)
     
 
 if __name__ == "__main__":
