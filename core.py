@@ -55,11 +55,11 @@ def sex(image):
    
     # run sextractor with different default parameters
     print('running SExtractor to {}...'.format(image))
-    P = Popen('sextractor -c goto1.sex ' + image + '.fits', shell=True)
+    P = Popen('sex -c goto1.sex ' + image + '.fits', shell=True)
     P.wait()
     P = Popen('psfex default.fits', shell=True)
     P.wait()
-    P = Popen('sextractor -c goto2.sex -CATALOG_NAME ' + image + '.cat ' + image + '.fits', shell=True)
+    P = Popen('sex -c goto2.sex -CATALOG_NAME ' + image + '.cat ' + image + '.fits', shell=True)
     P.wait()
     P = Popen('mv ' + image + '.cat results', shell=True)
     P.wait()
