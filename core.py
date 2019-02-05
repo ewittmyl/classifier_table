@@ -101,6 +101,8 @@ def main(path="/export/gotodata1/jdl/storage/pipeline/", UT='UT4'):
                     prep(img_path, img)
                     sex(img)
                     remove_sideproducts()
+                else:
+                    pass
     except KeyboardInterrupt:
         remove_sideproducts()
         P = Popen('rm -rf *cat' , shell=True)

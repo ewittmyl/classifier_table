@@ -28,9 +28,6 @@ FLAGS                    Extraction flags
 FWHM_IMAGE               FWHM assuming a gaussian core                             [pixel]
 ELONGATION               A_IMAGE/B_IMAGE                                          
 CLASS_STAR               S/G classifier output                                    
-VIGNET            #       Pixel data around detection                               [count]
 FLUX_RADIUS[5]             # Fraction-of-light radii                                   [pixel]
 SPREAD_MODEL             Spread parameter from model-fitting                      
 SPREADERR_MODEL          Spread parameter error from model-fitting                
-
-SNR_WIN
