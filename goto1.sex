@@ -4,7 +4,7 @@
 
 #-------------------------------- Catalog ------------------------------------
 
-CATALOG_NAME     psf_prep.fits       # name of the output catalog
+CATALOG_NAME     default.fits       # name of the output catalog
 CATALOG_TYPE     FITS_LDAC      # NONE,ASCII,ASCII_HEAD, ASCII_SKYCAT,
                                 # ASCII_VOTABLE, FITS_1.0 or FITS_LDAC
 PARAMETERS_NAME  ./goto1.param  # name of the file containing catalog contents
