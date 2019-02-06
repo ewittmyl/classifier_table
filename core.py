@@ -78,22 +78,27 @@ def merge_tables(path="./results/"):
         cat_list = os.listdir(path)
         cat_path = path + cat_list
         if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
+            print("Detection table and merged record are loaded.")
             merged_table = pd.read_csv("./detections.csv")
             merged_records = open("./merged_images.txt",'a+')
             
         else:
             if (os.path.isfile("./detections.csv")) or (os.path.isfile("./merged_images.txt")):
+                print("Detection table or/and merged record is missing. Creating a new one...")
                 P = Popen("rm -rf detections.csv", shell=True)
                 P.wait()
                 P = Popen("rm -rf merged_images.txt", shell=True)
                 P.wait()
             Popen("touch merged_images.txt", shell=True)
             merged_records = open("./merged_images.txt",'a+')
+            print("Merging {}".format(cat_list[0]))
+            print("Merging {}".format(cat_list[1]))
             merged_table = pd.concat([cat_path[0],cat_path[1]])
             merged_records.write(cat_list[0]+'\n'+cat_list[1]+'\n')
             
         merging = list(set(cat_list) & set([line.split('\n') for line in merged_records.readlines()]))
         for cat in merging:
+            print("Merging {}".format(cat))
             merged_table = pd.concat([merged_table, path+cat])
             merged_records.write(cat+'\n')
         cat.to_csv("detections.csv", index=False, header=False)
@@ -102,7 +107,7 @@ def merge_tables(path="./results/"):
     except KeyboardInterrupt:
         cat.to_csv("detections.csv", index=False, header=False)
         merged_records.close()
-        raise KeyboardInterrupt
+        raise KeyboardInterrupt("detection.csv is saved!")
 
 
 
