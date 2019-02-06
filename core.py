@@ -76,7 +76,7 @@ def remove_sideproducts(image=None):
 def merge_tables(path="./results/"):
     try:
         cat_list = os.listdir(path)
-        cat_path = path + cat_list
+        cat_path = [path + c for c in cat_list]
         if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
             print("Detection table and merged record are loaded.")
             merged_table = pd.read_csv("./detections.csv")
