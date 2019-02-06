@@ -93,13 +93,16 @@ def merge_tables(path="./results/"):
             merged_records = open("./merged_images.txt",'a+')
             print("Merging {}".format(cat_list[0]))
             print("Merging {}".format(cat_list[1]))
-            merged_table = pd.concat([cat_path[0],cat_path[1]])
+            df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None)
+            df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None)
+            merged_table = pd.concat([df0,df1)
             merged_records.write(cat_list[0]+'\n'+cat_list[1]+'\n')
             
         merging = list(set(cat_list) & set([line.split('\n') for line in merged_records.readlines()]))
         for cat in merging:
             print("Merging {}".format(cat))
-            merged_table = pd.concat([merged_table, path+cat])
+            df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
+            merged_table = pd.concat([merged_table, df])
             merged_records.write(cat+'\n')
         cat.to_csv("detections.csv", index=False, header=False)
         merged_records.close()
