@@ -98,7 +98,7 @@ def merge_tables(path="./results/"):
             merged_table = pd.concat([df0,df1])
             merged_records.write(cat_list[0]+'\n'+cat_list[1]+'\n')
             
-        merging = list(set(cat_list) & set([line.split('\n') for line in merged_records.readlines()]))
+        merging = list(set(cat_list) - set([line.split('\n') for line in merged_records.readlines()]))
         for cat in merging:
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
