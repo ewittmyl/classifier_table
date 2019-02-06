@@ -1,7 +1,6 @@
-import os
-import datetime
-import glob
+import os, datetime, glob
 from subprocess import Popen
+import pandas as pd
 
 
 def load_dates(path):
