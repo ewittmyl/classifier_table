@@ -104,11 +104,11 @@ def merge_tables(path="./results/"):
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
             merged_table = pd.concat([merged_table, df])
             merged_records.write(cat+'\n')
-        cat.to_csv("detections.csv", index=False, header=False)
+        merged_table.to_csv("detections.csv", index=False, header=False)
         merged_records.close()
 
     except KeyboardInterrupt:
-        cat.to_csv("detections.csv", index=False, header=False)
+        merged_table.to_csv("detections.csv", index=False, header=False)
         merged_records.close()
         raise KeyboardInterrupt("detection.csv is saved!")
 
