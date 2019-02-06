@@ -74,6 +74,37 @@ def remove_sideproducts(image=None):
         P = Popen('rm -rf ' + image + '.fits', shell=True)
         P.wait()
 
+def merge_tables(path="./results/"):
+    try:
+        cat_list = os.listdir(path)
+        cat_path = path + cat_list
+        if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
+            merged_table = pd.read_csv("./detections.csv")
+            merged_records = open("./merged_images.txt",'a+')
+            
+        else:
+            if (os.path.isfile("./detections.csv")) or (os.path.isfile("./merged_images.txt")):
+                P = Popen("rm -rf detections.csv", shell=True)
+                P.wait()
+                P = Popen("rm -rf merged_images.txt", shell=True)
+                P.wait()
+            Popen("touch merged_images.txt", shell=True)
+            merged_records = open("./merged_images.txt",'a+')
+            merged_table = pd.concat([cat_path[0],cat_path[1]])
+            merged_records.write(cat_list[0]+'\n'+cat_list[1]+'\n')
+            
+        merging = list(set(cat_list) & set([line.split('\n') for line in merged_records.readlines()]))
+        for cat in merging:
+            merged_table = pd.concat([merged_table, path+cat])
+            merged_records.write(cat+'\n')
+        cat.to_csv("detections.csv", index=False, header=False)
+        merged_records.close()
+
+    except KeyboardInterrupt:
+        cat.to_csv("detections.csv", index=False, header=False)
+        merged_records.close()
+        raise KeyboardInterrupt
+
 
 
 

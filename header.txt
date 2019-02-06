@@ -1,0 +1,36 @@
+#   1 FLUX_APER              Flux vector within fixed circular aperture(s)              [count]
+#   7 MAG_APER               Fixed aperture magnitude vector                            [mag]
+#  13 MAG_AUTO               Kron-like elliptical aperture magnitude                    [mag]
+#  14 MAG_PETRO              Petrosian-like elliptical aperture magnitude               [mag]
+#  15 KRON_RADIUS            Kron apertures in units of A or B                         
+#  16 PETRO_RADIUS           Petrosian apertures in units of A or B                    
+#  17 FLUX_MAX               Peak flux above background                                 [count]
+#  18 ISOAREAF_IMAGE         Isophotal area (filtered) above Detection threshold        [pixel**2]
+#  19 X_IMAGE                Object position along x                                    [pixel]
+#  20 Y_IMAGE                Object position along y                                    [pixel]
+#  21 X_WORLD                Barycenter position along world x axis                     [deg]
+#  22 Y_WORLD                Barycenter position along world y axis                     [deg]
+#  23 X2_IMAGE               Variance along x                                           [pixel**2]
+#  24 Y2_IMAGE               Variance along y                                           [pixel**2]
+#  25 XY_IMAGE               Covariance between x and y                                 [pixel**2]
+#  26 THETA_IMAGE            Position angle (CCW/x)                                     [deg]
+#  27 X2WIN_IMAGE            Windowed variance along x                                  [pixel**2]
+#  28 Y2WIN_IMAGE            Windowed variance along y                                  [pixel**2]
+#  29 XYWIN_IMAGE            Windowed covariance between x and y                        [pixel**2]
+#  30 AWIN_IMAGE             Windowed profile RMS along major axis                      [pixel]
+#  31 BWIN_IMAGE             Windowed profile RMS along minor axis                      [pixel]
+#  32 THETAWIN_IMAGE         Windowed position angle (CCW/x)                            [deg]
+#  33 AWIN_WORLD             Windowed profile RMS along major axis (world units)        [deg]
+#  34 BWIN_WORLD             Windowed profile RMS along minor axis (world units)        [deg]
+#  35 THETAWIN_WORLD         Windowed position angle (CCW/world-x)                      [deg]
+#  36 MU_MAX                 Peak surface brightness above background                   [mag * arcsec**(-2)]
+#  37 FLAGS                  Extraction flags                                          
+#  38 FWHM_IMAGE             FWHM assuming a gaussian core                              [pixel]
+#  39 ELONGATION             A_IMAGE/B_IMAGE                                           
+#  40 CLASS_STAR             S/G classifier output                                     
+#  41 VIGNET                 Pixel data around detection                                [count]
+#  42 FLUX_RADIUS            Fraction-of-light radii                                    [pixel]
+#  47 SPREAD_MODEL           Spread parameter from model-fitting                       
+#  48 SPREADERR_MODEL        Spread parameter error from model-fitting                 
+#  49 SNR_WIN                Gaussian-weighted SNR                                     
+
