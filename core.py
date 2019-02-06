@@ -81,7 +81,8 @@ def merge_tables(path="./results/"):
             print("Detection table and merged record are loaded.")
             merged_table = pd.read_csv("./detections.csv")
             with open("merged_images.txt",'r') as read_records:
-                merged_records = [line for line in read_records.readlines()]
+                merged_records = [line.split("\n")[0] for line in read_records.readlines()]
+            merging = list(set(cat_list) - set(merged_records))
 
         else:
             if (os.path.isfile("./detections.csv")) or (os.path.isfile("./merged_images.txt")):
@@ -99,10 +100,8 @@ def merge_tables(path="./results/"):
             merged_table = pd.concat([df0,df1])
             with open("merged_images.txt",'a+') as write_records:
                 write_records.write(cat_list[0]+'\n'+cat_list[1]+'\n')
-            with open("merged_images.txt",'r') as read_records:
-                merged_records = [line for line in read_records.readlines()]
-            
-        merging = list(set(cat_list) - set(merged_records))
+            merging = cat_list[2:]
+
         for cat in merging:
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
@@ -110,6 +109,7 @@ def merge_tables(path="./results/"):
             with open("merged_images.txt",'a+') as write_records:
                 merged_records.write(cat+'\n')
         merged_table.to_csv("detections.csv", index=False, header=False)
+        print("All tables are merged.")
         
 
     except KeyboardInterrupt:
