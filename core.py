@@ -80,8 +80,9 @@ def merge_tables(path="./results/"):
         if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
             print("Detection table and merged record are loaded.")
             merged_table = pd.read_csv("./detections.csv")
-            merged_records = open("./merged_images.txt",'a+')
-            
+            with open("merged_images.txt",'r') as read_records:
+                merged_records = [line for line in read_records.readlines()]
+
         else:
             if (os.path.isfile("./detections.csv")) or (os.path.isfile("./merged_images.txt")):
                 print("Detection table or/and merged record is missing. Creating a new one...")
@@ -96,20 +97,23 @@ def merge_tables(path="./results/"):
             df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None)
             df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None)
             merged_table = pd.concat([df0,df1])
-            merged_records.write(cat_list[0]+'\n'+cat_list[1]+'\n')
+            with open("merged_images.txt",'a+') as write_records:
+                write_records.write(cat_list[0]+'\n'+cat_list[1]+'\n')
+            with open("merged_images.txt",'r') as read_records:
+                merged_records = [line for line in read_records.readlines()]
             
-        merging = list(set(cat_list) - set([line.split('\n') for line in merged_records.readlines()]))
+        merging = list(set(cat_list) - set(merged_records))
         for cat in merging:
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
             merged_table = pd.concat([merged_table, df])
-            merged_records.write(cat+'\n')
+            with open("merged_images.txt",'a+') as write_records:
+                merged_records.write(cat+'\n')
         merged_table.to_csv("detections.csv", index=False, header=False)
-        merged_records.close()
+        
 
     except KeyboardInterrupt:
         merged_table.to_csv("detections.csv", index=False, header=False)
-        merged_records.close()
         raise KeyboardInterrupt("detection.csv is saved!")
 
 
