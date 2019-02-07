@@ -55,18 +55,18 @@ def sex(image):
    
     # run sextractor with different default parameters
     print('running SExtractor to {}...'.format(image))
-    P = Popen('sex -c goto1.sex ' + image + '.fits', shell=True)
+    P = Popen('sextractor -c goto1.sex ' + image + '.fits', shell=True)
     P.wait()
-    P = Popen('psfex default.fits', shell=True)
+    P = Popen('psfex default.fits -c default.psfex', shell=True)
     P.wait()
-    P = Popen('sex -c goto2.sex -CATALOG_NAME ' + image + '.cat ' + image + '.fits', shell=True)
+    P = Popen('sextractor -c goto2.sex -CATALOG_NAME ' + image + '.cat ' + image + '.fits', shell=True)
     P.wait()
     P = Popen('mv ' + image + '.cat results', shell=True)
     P.wait()
 
 
 def remove_sideproducts(image=None):
-    unwanteds = ['default.fits','default.psf','*png','chi_default.fits','resi_default.fits','samp_default.fits','psfex.xml','proto_default.fits','snap_default.fits']
+    unwanteds = ['default.fits','default.psf','*svg','chi_default.fits','resi_default.fits','samp_default.fits','psfex.xml','proto_default.fits','snap_default.fits']
     for unwanted in unwanteds:
         P = Popen('rm -rf ' + unwanted, shell=True)
         P.wait()
@@ -160,4 +160,4 @@ def main(path="/export/gotodata1/jdl/storage/pipeline/", UT='UT4'):
     
 
 if __name__ == "__main__":
-    main()
+    main("/mnt3/data/public/goto/commissioning/pipeline/")
