@@ -97,14 +97,14 @@ def merge_tables(path="./results/"):
             print("Merging {}".format(cat_list[1]))
             df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None)
             df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None)
-            merged_table = pd.concat([df0,df1])
+            merged_table = df0.append(df1, ignore_index=True)
             merged_records = [cat_list[0], cat_list[1]]
             merging = cat_list[2:]
 
         for cat in merging:
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
-            merged_table = pd.concat([merged_table, df])
+            merged_table.append(df, ignore_index=True)
             merged_records.append(cat)
         merged_table.to_csv("detections.csv", index=False, header=False)
         with open('merged_images.txt','w') as f:
