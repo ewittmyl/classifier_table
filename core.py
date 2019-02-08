@@ -76,11 +76,21 @@ def remove_sideproducts(image=None):
 
 def merge_tables(path="./results/"):
     try:
+        col = ["FLUX_APER2","FLUX_APER4","FLUX_APER5","FLUX_APER8","FLUX_APER10",
+        "FLUX_APER14","MAG_APER2","MAG_APER4","MAG_APER5","MAG_APER8",
+        "MAG_APER10","MAG_APER14","MAG_AUTO","MAG_PETRO","KRON_RADIUS",
+        "PETRO_RADIUS","FLUX_MAX","ISOAREAF_IMAGE","X_IMAGE","Y_IMAGE",
+        "X_WORLD","Y_WORLD","X2_IMAGE","Y2_IMAGE","XY_IMAGE","THETA_IMAGE",
+        "X2WIN_IMAGE","Y2WIN_IMAGE","XYWIN_IMAGE","AWIN_IMAGE","BWIN_IMAGE",
+        "THETAWIN_IMAGE","AWIN_WORLD","BWIN_WORLD","THETAWIN_WORLD","MU_MAX",
+        "FLAGS","FWHM_IMAGE","ELONGATION","CLASS_STAR","FLUX_RADIUS0.25",
+        "FLUX_RADIUS0.5","FLUX_RADIUS0.85","FLUX_RADIUS0.95","FLUX_RADIUS0.99",
+        "SPREAD_MODEL","SPREADERR_MODEL"]
         cat_list = os.listdir(path)
         cat_path = [path + c for c in cat_list]
         if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
             print("Detection table and merged record are loaded.")
-            merged_table = pd.read_csv("./detections.csv")
+            merged_table = pd.read_csv("./detections.csv",header=None,names=col)
             with open("merged_images.txt",'r') as f:
                 merged_records = sj.load(f)
             merging = list(set(cat_list) - set(merged_records))
@@ -95,25 +105,25 @@ def merge_tables(path="./results/"):
             Popen("touch merged_images.txt", shell=True)
             print("Merging {}".format(cat_list[0]))
             print("Merging {}".format(cat_list[1]))
-            df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None)
-            df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None)
-            merged_table = df0.append(df1, ignore_index=True)
+            df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None,names=col)
+            df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None,names=col)
+            merged_table = df0.append(df1)
             merged_records = [cat_list[0], cat_list[1]]
             merging = cat_list[2:]
 
         for cat in merging:
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
-            merged_table = merged_table.append(df, ignore_index=True)
+            merged_table = merged_table.append(df)
             merged_records.append(cat)
-        merged_table.to_csv("detections.csv", index=False, header=False)
+        merged_table.to_csv("detections.csv", index=False, header=True)
         with open('merged_images.txt','w') as f:
             sj.dump(merged_records, f)
         print("All tables are merged.")
         
 
     except KeyboardInterrupt:
-        merged_table.to_csv("detections.csv", index=False, header=False)
+        merged_table.to_csv("detections.csv", index=False, header=True)
         with open('merged_images.txt','w') as f:
             sj.dump(merged_records, f)
         raise KeyboardInterrupt("detection.csv is saved!")
