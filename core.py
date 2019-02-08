@@ -97,10 +97,10 @@ def merge_tables(path="./results/"):
             print("Merging {}".format(cat_list[1]))
             df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None)
             df0[df0.shape[1]+1] = cat_list[0].split("_")[0][1:]
-            df0[df0.shape[1]+1] = df0['37'].mean()
+            df0[df0.shape[1]+1] = df0[:,'37'].mean()
             df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None)
             df1[df1.shape[1]+1] = cat_list[1].split("_")[0][1:]
-            df1[df1.shape[1]+1] = df1['37'].mean()
+            df1[df1.shape[1]+1] = df1[:,'37'].mean()
             merged_table = pd.concat([df0, df1], ignore_index=True)
             merged_records = [cat_list[0], cat_list[1]]
             merging = cat_list[2:]
@@ -109,7 +109,7 @@ def merge_tables(path="./results/"):
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
             df[df.shape[1]+1] = cat_list[1].split("_")[0][1:]
-            df[df.shape[1]+1] = df['37'].mean()
+            df[df.shape[1]+1] = df[:,'37'].mean()
             merged_table = pd.concat([merged_table, df], ignore_index=True)
             merged_records.append(cat)
         merged_table.to_csv("detections.csv", index=False, header=False)
