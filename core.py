@@ -90,7 +90,7 @@ def merge_tables(path="./results/"):
         cat_path = [path + c for c in cat_list]
         if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
             print("Detection table and merged record are loaded.")
-            merged_table = pd.read_csv("./detections.csv",header=None,names=col)
+            merged_table = pd.read_csv("./detections.csv",header=None)
             with open("merged_images.txt",'r') as f:
                 merged_records = sj.load(f)
             merging = list(set(cat_list) - set(merged_records))
@@ -105,7 +105,7 @@ def merge_tables(path="./results/"):
             Popen("touch merged_images.txt", shell=True)
             print("Merging {}".format(cat_list[0]))
             print("Merging {}".format(cat_list[1]))
-            df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None,names=col)
+            df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None)
             df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None)
             merged_table = pd.concat([df0, df1], ignore_index=True)
             merged_records = [cat_list[0], cat_list[1]]
@@ -116,14 +116,14 @@ def merge_tables(path="./results/"):
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
             merged_table = pd.concat([merged_table, df], ignore_index=True)
             merged_records.append(cat)
-        merged_table.to_csv("detections.csv", index=False, header=True)
+        merged_table.to_csv("detections.csv", index=False, header=False)
         with open('merged_images.txt','w') as f:
             sj.dump(merged_records, f)
         print("All tables are merged.")
         
 
     except KeyboardInterrupt:
-        merged_table.to_csv("detections.csv", index=False, header=True)
+        merged_table.to_csv("detections.csv", index=False, header=False)
         with open('merged_images.txt','w') as f:
             sj.dump(merged_records, f)
         raise KeyboardInterrupt("detection.csv is saved!")
