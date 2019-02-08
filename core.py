@@ -76,16 +76,6 @@ def remove_sideproducts(image=None):
 
 def merge_tables(path="./results/"):
     try:
-        col = ["FLUX_APER2","FLUX_APER4","FLUX_APER5","FLUX_APER8","FLUX_APER10",
-        "FLUX_APER14","MAG_APER2","MAG_APER4","MAG_APER5","MAG_APER8",
-        "MAG_APER10","MAG_APER14","MAG_AUTO","MAG_PETRO","KRON_RADIUS",
-        "PETRO_RADIUS","FLUX_MAX","ISOAREAF_IMAGE","X_IMAGE","Y_IMAGE",
-        "X_WORLD","Y_WORLD","X2_IMAGE","Y2_IMAGE","XY_IMAGE","THETA_IMAGE",
-        "X2WIN_IMAGE","Y2WIN_IMAGE","XYWIN_IMAGE","AWIN_IMAGE","BWIN_IMAGE",
-        "THETAWIN_IMAGE","AWIN_WORLD","BWIN_WORLD","THETAWIN_WORLD","MU_MAX",
-        "FLAGS","FWHM_IMAGE","ELONGATION","CLASS_STAR","FLUX_RADIUS0.25",
-        "FLUX_RADIUS0.5","FLUX_RADIUS0.85","FLUX_RADIUS0.95","FLUX_RADIUS0.99",
-        "SPREAD_MODEL","SPREADERR_MODEL"]
         cat_list = os.listdir(path)
         cat_path = [path + c for c in cat_list]
         if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
@@ -106,7 +96,9 @@ def merge_tables(path="./results/"):
             print("Merging {}".format(cat_list[0]))
             print("Merging {}".format(cat_list[1]))
             df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None)
+            df0[df0.shape[1]+1] = cat_list[0]
             df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None)
+            df1[df1.shape[1]+1] = cat_list[1]
             merged_table = pd.concat([df0, df1], ignore_index=True)
             merged_records = [cat_list[0], cat_list[1]]
             merging = cat_list[2:]
@@ -114,6 +106,7 @@ def merge_tables(path="./results/"):
         for cat in merging:
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
+            df[df.shape[1]+1] = cat_list[1]
             merged_table = pd.concat([merged_table, df], ignore_index=True)
             merged_records.append(cat)
         merged_table.to_csv("detections.csv", index=False, header=False)
