@@ -76,6 +76,16 @@ def remove_sideproducts(image=None):
 
 def merge_tables(path="./results/"):
     try:
+        col = ["FLUX_APER2","FLUX_APER4","FLUX_APER5","FLUX_APER8","FLUX_APER10",
+        "FLUX_APER14","MAG_APER2","MAG_APER4","MAG_APER5","MAG_APER8",
+        "MAG_APER10","MAG_APER14","MAG_AUTO","MAG_PETRO","KRON_RADIUS",
+        "PETRO_RADIUS","FLUX_MAX","ISOAREAF_IMAGE","X_IMAGE","Y_IMAGE",
+        "X_WORLD","Y_WORLD","X2_IMAGE","Y2_IMAGE","XY_IMAGE","THETA_IMAGE",
+        "X2WIN_IMAGE","Y2WIN_IMAGE","XYWIN_IMAGE","AWIN_IMAGE","BWIN_IMAGE",
+        "THETAWIN_IMAGE","AWIN_WORLD","BWIN_WORLD","THETAWIN_WORLD","MU_MAX",
+        "FLAGS","FWHM_IMAGE","ELONGATION","CLASS_STAR","FLUX_RADIUS25",
+        "FLUX_RADIUS50","FLUX_RADIUS85","FLUX_RADIUS95","FLUX_RADIUS99",
+        "SPREAD_MODEL","SPREADERR_MODEL","FWHM_MEAN"]
         cat_list = os.listdir(path)
         cat_path = [path + c for c in cat_list]
         if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
@@ -95,18 +105,18 @@ def merge_tables(path="./results/"):
             Popen("touch merged_images.txt", shell=True)
             print("Merging {}".format(cat_list[0]))
             print("Merging {}".format(cat_list[1]))
-            df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None)
-            df0[df0.shape[1]+1] = df0.iloc[:,37].mean()
-            df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None)
-            df1[df1.shape[1]+1] = df1.iloc[:,37].mean()
+            df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None,names=col)
+            df0['FWHM_MEAN'] = df0['FWHM_IMAGE'].mean()
+            df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None,names=col)
+            df1['FWHM_MEAN'] = df1.['FWHM_IMAGE'].mean()
             merged_table = pd.concat([df0, df1], ignore_index=True)
             merged_records = [cat_list[0], cat_list[1]]
             merging = cat_list[2:]
 
         for cat in merging:
             print("Merging {}".format(cat))
-            df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None)
-            df[df.shape[1]+1] = df.iloc[:,37].mean()
+            df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None,names=col)
+            df['FWHM_MEAN'] = df.['FWHM_IMAGE'].mean()
             merged_table = pd.concat([merged_table, df], ignore_index=True)
             merged_records.append(cat)
         merged_table.to_csv("detections.csv", index=False, header=False)
