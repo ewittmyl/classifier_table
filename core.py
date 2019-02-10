@@ -110,7 +110,7 @@ def merge_tables(path="./results/"):
             df0['FWHM_MEAN'] = df0['FWHM_IMAGE'].mean()
             df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None,names=col)
             print(df1['FWHM_IMAGE'].mean())
-            df1['FWHM_MEAN'] = df1.['FWHM_IMAGE'].mean()
+            df1['FWHM_MEAN'] = df1['FWHM_IMAGE'].mean()
             merged_table = pd.concat([df0, df1], ignore_index=True)
             merged_records = [cat_list[0], cat_list[1]]
             merging = cat_list[2:]
@@ -119,7 +119,7 @@ def merge_tables(path="./results/"):
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None,names=col)
             print(df['FWHM_IMAGE'].mean())
-            df['FWHM_MEAN'] = df.['FWHM_IMAGE'].mean()
+            df['FWHM_MEAN'] = df['FWHM_IMAGE'].mean()
             merged_table = pd.concat([merged_table, df], ignore_index=True)
             merged_records.append(cat)
         merged_table.to_csv("detections.csv", index=False, header=False)
