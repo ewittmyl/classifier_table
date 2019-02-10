@@ -106,8 +106,10 @@ def merge_tables(path="./results/"):
             print("Merging {}".format(cat_list[0]))
             print("Merging {}".format(cat_list[1]))
             df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None,names=col)
+            print(df0['FWHM_IMAGE'].mean())
             df0['FWHM_MEAN'] = df0['FWHM_IMAGE'].mean()
             df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None,names=col)
+            print(df1['FWHM_IMAGE'].mean())
             df1['FWHM_MEAN'] = df1.['FWHM_IMAGE'].mean()
             merged_table = pd.concat([df0, df1], ignore_index=True)
             merged_records = [cat_list[0], cat_list[1]]
@@ -116,6 +118,7 @@ def merge_tables(path="./results/"):
         for cat in merging:
             print("Merging {}".format(cat))
             df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None,names=col)
+            print(df['FWHM_IMAGE'].mean())
             df['FWHM_MEAN'] = df.['FWHM_IMAGE'].mean()
             merged_table = pd.concat([merged_table, df], ignore_index=True)
             merged_records.append(cat)
