@@ -77,6 +77,8 @@ def remove_sideproducts(image=None):
         P.wait()
 
 def extra_features(table):
+    print("Creating new features for {}".format(table.split(".")[0]))
+
     col = ["FLUX_APER2","FLUX_APER4","FLUX_APER5","FLUX_APER8","FLUX_APER10",
         "FLUX_APER14","MAG_APER2","MAG_APER4","MAG_APER5","MAG_APER8",
         "MAG_APER10","MAG_APER14","MAG_AUTO","MAG_PETRO","KRON_RADIUS",
@@ -89,15 +91,13 @@ def extra_features(table):
         "SPREAD_MODEL","SPREADERR_MODEL"]
 
     tab = pd.read_table(table, skiprows=35, sep=r'\s+', header=None, names=col)
-
-    '''create FWHMM_MEAN column'''
+    
+    '''create FWHM_MEAN and id column'''
     tab["FWHM_MEAN"] = tab["FWHM_IMAGE"].mean()
-
-    '''create CONCENT column'''
-    tab['CONCENT'] = tab["MAG_APER4"] - tab["MAG_APER8"]
+    tab["id"] = table.split("_")[0][1:]
 
     '''save to csv table'''
-    tab.to_csv(table.split(".")[0], index=False, header=False)
+    tab.to_csv(table.split(".")[0]+'.csv', index=False, header=False)
 
 
 def merge_tables(path="./results/"):
