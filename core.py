@@ -61,8 +61,10 @@ def sex(image):
     P.wait()
     P = Popen('sextractor -c goto2.sex -CATALOG_NAME ' + image + '.cat ' + image + '.fits', shell=True)
     P.wait()
-    P = Popen('mv ' + image + '.cat results', shell=True)
+    tab = extra_features(image + '.cat')
+    P = Popen('mv ' + image + '.csv results', shell=True)
     P.wait()
+    P = Popen('rm -rf ' + image + '.cat', shell=True)
 
 
 def remove_sideproducts(image=None):
@@ -73,6 +75,30 @@ def remove_sideproducts(image=None):
     if image:
         P = Popen('rm -rf ' + image + '.fits', shell=True)
         P.wait()
+
+def extra_features(table):
+    col = ["FLUX_APER2","FLUX_APER4","FLUX_APER5","FLUX_APER8","FLUX_APER10",
+        "FLUX_APER14","MAG_APER2","MAG_APER4","MAG_APER5","MAG_APER8",
+        "MAG_APER10","MAG_APER14","MAG_AUTO","MAG_PETRO","KRON_RADIUS",
+        "PETRO_RADIUS","FLUX_MAX","ISOAREAF_IMAGE","X_IMAGE","Y_IMAGE",
+        "X_WORLD","Y_WORLD","X2_IMAGE","Y2_IMAGE","XY_IMAGE","THETA_IMAGE",
+        "X2WIN_IMAGE","Y2WIN_IMAGE","XYWIN_IMAGE","AWIN_IMAGE","BWIN_IMAGE",
+        "THETAWIN_IMAGE","AWIN_WORLD","BWIN_WORLD","THETAWIN_WORLD","MU_MAX",
+        "FLAGS","FWHM_IMAGE","ELONGATION","CLASS_STAR","FLUX_RADIUS25",
+        "FLUX_RADIUS50","FLUX_RADIUS85","FLUX_RADIUS95","FLUX_RADIUS99",
+        "SPREAD_MODEL","SPREADERR_MODEL"]
+
+    tab = pd.read_table(table, skiprows=35, sep=r'\s+', header=None, names=col)
+
+    '''create FWHMM_MEAN column'''
+    tab["FWHM_MEAN"] = tab["FWHM_IMAGE"].mean()
+
+    '''create CONCENT column'''
+    tab['CONCENT'] = tab["MAG_APER4"] - tab["MAG_APER8"]
+
+    '''save to csv table'''
+    tab.to_csv(table.split(".")[0], index=False, header=False)
+
 
 def merge_tables(path="./results/"):
     try:
