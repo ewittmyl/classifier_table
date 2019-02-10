@@ -160,7 +160,7 @@ def main(path="/export/gotodata1/jdl/storage/pipeline/", UT='UT4'):
         which UT observations will be processed
     """
     try:
-        bad = ['r0100348_UT4-median']
+        bad = ['r0100348_UT4-median','r0098703_UT4-median']
         if not os.path.isdir("./results"):
             os.mkdir("results")
         dates = load_dates(path)
