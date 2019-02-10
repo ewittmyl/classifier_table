@@ -160,6 +160,7 @@ def main(path="/export/gotodata1/jdl/storage/pipeline/", UT='UT4'):
         which UT observations will be processed
     """
     try:
+        bad = ['r0100348_UT4-median']
         if not os.path.isdir("./results"):
             os.mkdir("results")
         dates = load_dates(path)
@@ -170,7 +171,7 @@ def main(path="/export/gotodata1/jdl/storage/pipeline/", UT='UT4'):
             images = glob.glob(path + d + "/final*/*" + UT + "-median.fits")
             for img_path in images:
                 img = img_path.split("/")[-1].split(".")[0]
-                if not img in processed_img:
+                if (not img in processed_img) and (not img in bad):
                     prep(img_path, img)
                     sex(img)
                     remove_sideproducts(img)
