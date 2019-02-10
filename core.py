@@ -61,7 +61,7 @@ def sex(image):
     P.wait()
     P = Popen('sextractor -c goto2.sex -CATALOG_NAME ' + image + '.cat ' + image + '.fits', shell=True)
     P.wait()
-    tab = extra_features(image + '.cat')
+    extra_features(image + '.cat')
     P = Popen('mv ' + image + '.csv results', shell=True)
     P.wait()
     P = Popen('rm -rf ' + image + '.cat', shell=True)
@@ -102,16 +102,6 @@ def extra_features(table):
 
 def merge_tables(path="./results/"):
     try:
-        col = ["FLUX_APER2","FLUX_APER4","FLUX_APER5","FLUX_APER8","FLUX_APER10",
-        "FLUX_APER14","MAG_APER2","MAG_APER4","MAG_APER5","MAG_APER8",
-        "MAG_APER10","MAG_APER14","MAG_AUTO","MAG_PETRO","KRON_RADIUS",
-        "PETRO_RADIUS","FLUX_MAX","ISOAREAF_IMAGE","X_IMAGE","Y_IMAGE",
-        "X_WORLD","Y_WORLD","X2_IMAGE","Y2_IMAGE","XY_IMAGE","THETA_IMAGE",
-        "X2WIN_IMAGE","Y2WIN_IMAGE","XYWIN_IMAGE","AWIN_IMAGE","BWIN_IMAGE",
-        "THETAWIN_IMAGE","AWIN_WORLD","BWIN_WORLD","THETAWIN_WORLD","MU_MAX",
-        "FLAGS","FWHM_IMAGE","ELONGATION","CLASS_STAR","FLUX_RADIUS25",
-        "FLUX_RADIUS50","FLUX_RADIUS85","FLUX_RADIUS95","FLUX_RADIUS99",
-        "SPREAD_MODEL","SPREADERR_MODEL","FWHM_MEAN"]
         cat_list = os.listdir(path)
         cat_path = [path + c for c in cat_list]
         if (os.path.isfile("./detections.csv")) and (os.path.isfile("./merged_images.txt")):
@@ -131,21 +121,15 @@ def merge_tables(path="./results/"):
             Popen("touch merged_images.txt", shell=True)
             print("Merging {}".format(cat_list[0]))
             print("Merging {}".format(cat_list[1]))
-            df0 = pd.read_table(cat_path[0],skiprows=35,sep=r'\s+',header=None,names=col)
-            print(df0['FWHM_IMAGE'].mean())
-            df0['FWHM_MEAN'] = df0['FWHM_IMAGE'].mean()
-            df1 = pd.read_table(cat_path[1],skiprows=35,sep=r'\s+',header=None,names=col)
-            print(df1['FWHM_IMAGE'].mean())
-            df1['FWHM_MEAN'] = df1['FWHM_IMAGE'].mean()
+            df0 = pd.read_csv(cat_path[0], header=None, index_col=False)
+            df1 = pd.read_csv(cat_path[1],header=None, index_col=False)
             merged_table = pd.concat([df0, df1], ignore_index=True)
             merged_records = [cat_list[0], cat_list[1]]
             merging = cat_list[2:]
 
         for cat in merging:
             print("Merging {}".format(cat))
-            df = pd.read_table(path+cat,skiprows=35,sep=r'\s+',header=None,names=col)
-            print(df['FWHM_IMAGE'].mean())
-            df['FWHM_MEAN'] = df['FWHM_IMAGE'].mean()
+            df = pd.read_csv(path+cat, header=None, index_col=False)
             merged_table = pd.concat([merged_table, df], ignore_index=True)
             merged_records.append(cat)
         merged_table.to_csv("detections.csv", index=False, header=False)
